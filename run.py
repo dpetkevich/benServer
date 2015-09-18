@@ -24,7 +24,7 @@ def bot_talk():
     resp.message(msg=text_portion)
 
     '''image response'''
-    resp.message().media(image_portion)
+    # resp.message().media(image_portion)
     print(resp)
     return str(resp)
 
