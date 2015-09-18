@@ -16,19 +16,18 @@ def bot_talk():
     bot_response = api.talk(user_key, app_id, host, botname, request_message)["response"]
     
     '''text response'''
-    text_resp = twilio.twiml.Response()
-    text_resp.message(msg=bot_response)
+    resp = twilio.twiml.Response()
+    resp.message(msg=bot_response)
 
     '''image response'''
-    image_resp = twilio.twiml.Response()
-    image_resp.message().media('https://i.chzbgr.com/full/8563718656/h636C9F57/')
+    resp.message().media('https://i.chzbgr.com/full/8563718656/h636C9F57/')
 
-    print str(text_resp) + str(image_resp)
-
+    print str(resp)
 
 
 
-    return str(text_resp) + str(image_resp)
+
+    return str(resp)
 
 if __name__ == "__main__":
     app.run(debug=True)
