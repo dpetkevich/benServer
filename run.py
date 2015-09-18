@@ -15,7 +15,7 @@ def bot_talk():
     request_message = request.values.get('Body',  'Hi')
     bot_response = api.talk(user_key, app_id, host, botname, request_message)["response"]
     resp = twilio.twiml.Response()
-    resp.message(bot_response)
+    resp.message(botpip_response)
     return str(resp)
 
 if __name__ == "__main__":
