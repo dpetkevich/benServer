@@ -1,7 +1,6 @@
 from flask import Flask, request, redirect
 import twilio.twiml
 from pb_py import main as api
-from bs4 import BeautifulSoup
 
 host = 'aiaas.pandorabots.com'
 user_key = '8704f84cef67d2c4c1c487ce9aab7da2'
