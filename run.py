@@ -20,13 +20,20 @@ def bot_talk():
     partition = bot_response.partition('<img')
     text_portion = partition[0]
     image_portion = soup.img.extract()['src']
-    
-    '''text response'''
+
+    # construct resposne
     resp = twilio.twiml.Response()
-    resp.message(msg=text_portion)
+
+    '''text response'''
+
+    #print(text_portion.rsplit("\n")[1])
+    for i,v in enumerate(text_portion.rsplit("\n")):
+    	print(i)
+    	resp.message(msg=text_portion.rsplit("\n")[i])
+
+    # resp.message(msg=text_portion)
 
     '''image response'''
-    print(image_portion)
     resp.message().media(image_portion)
     print(resp)
     return str(resp)
