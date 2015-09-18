@@ -25,11 +25,7 @@ def bot_talk():
 
     '''image response'''
     resp.message().media(image_portion)
-
-
     print(resp)
-
-
     return str(resp)
 
 if __name__ == "__main__":
