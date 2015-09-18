@@ -15,7 +15,8 @@ def bot_talk():
     request_message = request.values.get('Body',  'Hi')
     bot_response = api.talk(user_key, app_id, host, botname, request_message)["response"]
     resp = twilio.twiml.Response()
-    resp.message(bot_response)
+    print(bot_response)
+    resp.message(bot_response, media='https://i.chzbgr.com/full/8563718656/h636C9F57/')
     return str(resp)
 
 if __name__ == "__main__":
