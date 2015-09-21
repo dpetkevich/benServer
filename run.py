@@ -1,4 +1,4 @@
-from flask import Flask, request, redirect, make_response
+from flask import Flask, request, redirect, make_response, session
 import twilio.twiml
 from pb_py import main as api
 from bs4 import BeautifulSoup
@@ -8,17 +8,31 @@ host = 'aiaas.pandorabots.com'
 user_key = '8704f84cef67d2c4c1c487ce9aab7da2'
 app_id = '1409612152298'
 botname = 'benjamin'
-
 app = Flask(__name__)
+app.secret_key="\xae\xfb\x10\xaa\x06l\x91\xaeg\xb3z\xa9j\x92\xcc\x08)\xa2\x1e\x9aw9\xf8%"
+
 
 @app.route("/", methods=['GET','POST'])
 def bot_talk():
     print(request.values)
     """Respond to incoming texts with a text from your bot"""
+
     request_message = request.values.get('Body','Hi')
-    print(request.cookies.get('session_id'))
-    if request.cookies.get('session_id') != None:
-        session_id = int(request.cookies.get('session_id'))
+    #print(request.cookies.get('session_id'))
+
+    # if request.cookies.get('session_id') != None:
+    #     session_id = int(request.cookies.get('session_id'))
+    #     print('in if')
+    #     print(session_id)
+    #     full_bot_response = api.talk(user_key, app_id, host, botname, request_message, session_id, trace=True)
+    # else:
+    #     full_bot_response = api.talk(user_key, app_id, host, botname, request_message, trace=True)
+
+    #request_message = request.values.get('Body','Hi')
+    #print(request.cookies.get('session_id'))
+
+    if session.get('session_id') != None:
+        session_id = int(request.get('session_id'))
         print('in if')
         print(session_id)
         full_bot_response = api.talk(user_key, app_id, host, botname, request_message, session_id, trace=True)
@@ -42,12 +56,13 @@ def bot_talk():
     resp = twilio.twiml.Response()
 
     #construction main respone
-    main_resp=make_response(str(resp))
+    # main_resp=make_response(str(resp))
 
     #set cookie
-    expires=datetime.utcnow() + timedelta(hours=4)
-    main_resp.set_cookie('session_id',value=str(session_response),expires=expires.strftime('%a, %d %b %Y %H:%M:%S GMT'))
+    # expires=datetime.utcnow() + timedelta(hours=4)
+    # main_resp.set_cookie('session_id',value=str(session_response),expires=expires.strftime('%a, %d %b %Y %H:%M:%S GMT'))
 
+    session['session_id'] = session_response
 
     '''text response'''
     #broken up responses
@@ -60,8 +75,9 @@ def bot_talk():
 
     '''image response'''
     # resp.message().media(image_portion)
-    print(resp)
-    return main_resp
+    print(str(resp))
+    return str(resp)
+    # return main_resp
 
 if __name__ == "__main__":
     app.run(debug=True)
