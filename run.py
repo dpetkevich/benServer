@@ -14,14 +14,14 @@ app = Flask(__name__)
 def bot_talk():
     print(request.values)
     """Respond to incoming texts with a text from your bot"""
-    request_message = request.values.get('Body',  'Hi')
-    full_bot_response = api.talk(user_key, app_id, host, botname, request_message)
+    request_message = request.values.get('Body','Hi')
+    full_bot_response = api.talk(user_key, app_id, host, botname, request_message, session_id=True, trace=True, recent=True)
     '''parse response'''
     bot_response = full_bot_response["response"]
     session_response = full_bot_response["sessionid"]
 
-    debug = api.debug_bot(user_key, app_id, host, botname, request_message, session_id=True, reset=False, trace=True, recent=True)
-    print(debug)
+    # debug = api.debug_bot(user_key, app_id, host, botname, request_message, session_id=True, reset=False, trace=True, recent=True)
+    print(full_bot_response)
 
 
     soup = BeautifulSoup(bot_response, "lxml")
