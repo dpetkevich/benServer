@@ -20,7 +20,7 @@ def bot_talk():
     bot_response = full_bot_response["response"]
     session_response = full_bot_response["sessionid"]
 
-    debug = API.debug_bot(user_key, app_id, host, botname, input_text, session_id=True, reset=False, trace=True, recent=True)
+    debug = api.debug_bot(user_key, app_id, host, botname, request_message, session_id=True, reset=False, trace=True, recent=True)
     print(debug)
 
 
