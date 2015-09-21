@@ -12,6 +12,7 @@ app = Flask(__name__)
 
 @app.route("/", methods=['GET','POST'])
 def bot_talk():
+    print(request.values)
     """Respond to incoming texts with a text from your bot"""
     request_message = request.values.get('Body',  'Hi')
     bot_response = api.talk(user_key, app_id, host, botname, request_message)["response"]
