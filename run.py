@@ -25,11 +25,13 @@ def bot_talk():
     resp = twilio.twiml.Response()
 
     '''text response'''
+    #broken up responses
+    # for i,v in enumerate(text_portion.rsplit("\n")):
+    # 	print(i)
+    # 	resp.message(msg=text_portion.rsplit("\n")[i])
 
-    for i,v in enumerate(text_portion.rsplit("\n")):
-    	print(i)
-    	resp.message(msg=text_portion.rsplit("\n")[i])
-
+    #fat responses
+    resp.message(msg=text_portion)
 
     '''image response'''
     # resp.message().media(image_portion)
