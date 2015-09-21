@@ -15,8 +15,13 @@ def bot_talk():
     print(request.values)
     """Respond to incoming texts with a text from your bot"""
     request_message = request.values.get('Body',  'Hi')
-    bot_response = api.talk(user_key, app_id, host, botname, request_message)["response"]
+    full_bot_response = api.talk(user_key, app_id, host, botname, request_message)
     '''parse response'''
+    bot_response = full_bot_response["response"]
+    session_response = full_bot_response["sessionid"]
+    print("session_id" + session_response)
+
+
     soup = BeautifulSoup(bot_response, "lxml")
     partition = bot_response.partition('<img')
     text_portion = partition[0]
