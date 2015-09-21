@@ -16,12 +16,14 @@ def bot_talk():
     print(request.values)
     """Respond to incoming texts with a text from your bot"""
     request_message = request.values.get('Body','Hi')
-
+    print(request.cookies.get('session_id'))
     if request.cookies.get('session_id') != None:
         session_id = int(request.cookies.get('session_id'))
-        full_bot_response = api.talk(user_key, app_id, host, botname, request_message, session_id, session_id=True, trace=True)
+        print('in if')
+        print(session_id)
+        full_bot_response = api.talk(user_key, app_id, host, botname, request_message, session_id, trace=True)
     else:
-        full_bot_response = api.talk(user_key, app_id, host, botname, request_message, session_id=True, trace=True)
+        full_bot_response = api.talk(user_key, app_id, host, botname, request_message, trace=True)
 
     '''parse response'''
     bot_response = full_bot_response["response"]
