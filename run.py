@@ -19,8 +19,9 @@ def bot_talk():
     '''parse response'''
     bot_response = full_bot_response["response"]
     session_response = full_bot_response["sessionid"]
-    print('session_id')
-    print(session_response)
+
+    debug = API.debug_bot(user_key, app_id, host, botname, input_text, session_id=True, reset=False, trace=True, recent=True)
+    print(debug)
 
 
     soup = BeautifulSoup(bot_response, "lxml")
