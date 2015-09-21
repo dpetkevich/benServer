@@ -33,7 +33,7 @@ def bot_talk():
     #print(request.cookies.get('session_id'))
 
     if session.get('session_id') != None:
-        session_id = int(request.get('session_id'))
+        session_id = session.get('session_id')
         print('in if')
         print(session_id)
         full_bot_response = api.talk(user_key, app_id, host, botname, request_message, session_id, trace=True)
