@@ -16,7 +16,6 @@ app.secret_key="\xae\xfb\x10\xaa\x06l\x91\xaeg\xb3z\xa9j\x92\xcc\x08)\xa2\x1e\x9
 
 @app.route("/", methods=['GET','POST'])
 def bot_talk():
-    session.clear()
     print(request.values)
     print('session')
     print(session.get('session_id'))
