@@ -35,7 +35,7 @@ def bot_talk():
 
     '''parse response'''
     bot_response = full_bot_response["response"]
-
+    print(bot_response)
     print(full_bot_response)
 
 
