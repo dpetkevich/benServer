@@ -24,14 +24,18 @@ def bot_talk():
     if session.get('session_id') != None:
         session_id = session.get('session_id')
         client_name = session_id
-        print('in if')
-        print(session_id)
-        print(client_name)
+        
         full_bot_response = api.talk(user_key, app_id, host, botname, request_message, session_id, client_name, trace=True)
+
+
     else:
         full_bot_response = api.talk(user_key, app_id, host, botname, request_message, trace=True)
         session_id = full_bot_response["sessionid"]
 
+    print("sessionid")
+    print(session_id)
+    print("client_name")
+    print(client_name)
 
     '''parse response'''
     bot_response = full_bot_response["response"]
