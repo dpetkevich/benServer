@@ -19,18 +19,7 @@ def bot_talk():
     """Respond to incoming texts with a text from your bot"""
 
     request_message = request.values.get('Body','Hi')
-    #print(request.cookies.get('session_id'))
-
-    # if request.cookies.get('session_id') != None:
-    #     session_id = int(request.cookies.get('session_id'))
-    #     print('in if')
-    #     print(session_id)
-    #     full_bot_response = api.talk(user_key, app_id, host, botname, request_message, session_id, trace=True)
-    # else:
-    #     full_bot_response = api.talk(user_key, app_id, host, botname, request_message, trace=True)
-
-    #request_message = request.values.get('Body','Hi')
-    #print(request.cookies.get('session_id'))
+   
 
     if session.get('session_id') != None:
         session_id = session.get('session_id')
@@ -40,12 +29,12 @@ def bot_talk():
         full_bot_response = api.talk(user_key, app_id, host, botname, request_message, session_id, client_name, trace=True)
     else:
         full_bot_response = api.talk(user_key, app_id, host, botname, request_message, trace=True)
+        session_id = full_bot_response["sessionid"]
+
 
     '''parse response'''
     bot_response = full_bot_response["response"]
-    session_response = full_bot_response["sessionid"]
 
-    # debug = api.debug_bot(user_key, app_id, host, botname, request_message, session_id=True, reset=False, trace=True, recent=True)
     print(full_bot_response)
 
 
@@ -57,14 +46,9 @@ def bot_talk():
     # construct twiml response
     resp = twilio.twiml.Response()
 
-    #construction main respone
-    # main_resp=make_response(str(resp))
-
-    #set cookie
-    # expires=datetime.utcnow() + timedelta(hours=4)
-    # main_resp.set_cookie('session_id',value=str(session_response),expires=expires.strftime('%a, %d %b %Y %H:%M:%S GMT'))
-
-    session['session_id'] = session_response
+   
+    session['session_id'] = session_id
+    session['client_name'] = client_name
 
     '''text response'''
     #broken up responses
