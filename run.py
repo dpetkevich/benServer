@@ -16,6 +16,7 @@ app.secret_key="\xae\xfb\x10\xaa\x06l\x91\xaeg\xb3z\xa9j\x92\xcc\x08)\xa2\x1e\x9
 
 @app.route("/", methods=['GET','POST'])
 def bot_talk():
+    session.clear()
     print(request.values)
     print('session')
     print(session.get('session_id'))
@@ -25,7 +26,7 @@ def bot_talk():
 
     request_message = request.values.get('Body','Hi')
 
-    if session.get('session_id') != None:
+    if session.get('session_id') != None or session.get('client_name') != None:
         session_id = session.get('session_id')
         client_name = session.get('client_name')
         query = "https://aiaas.pandorabots.com/atalk/" + str(app_id) + "/" + str(botname) + "?user_key=" + str(user_key) + "&input=" + str(request_message) + '&client_name=' + str(client_name) + '&sessionid=' + str(session_id)
@@ -36,9 +37,10 @@ def bot_talk():
 
     r=requests.post(query)
     print(query)
-    print(r.text)
-   
-    full_bot_response = api.talk(user_key, app_id, host, botname, request_message, trace=True)
+    print(r.json())
+    
+    full_bot_response = r.json()
+    #full_bot_response = api.talk(user_key, app_id, host, botname, request_message, trace=True)
 
 
     # if session.get('session_id') != None:
@@ -57,7 +59,7 @@ def bot_talk():
 
 
     '''parse response'''
-    bot_response = full_bot_response["response"]
+    bot_response = full_bot_response["responses"][0]
  
 
 
@@ -69,7 +71,7 @@ def bot_talk():
     # construct twiml response
     resp = twilio.twiml.Response()
 
-   
+    print(full_bot_response)
     session['session_id'] = full_bot_response['sessionid']
     session['client_name'] = full_bot_response['client_name']
 
