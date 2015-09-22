@@ -26,6 +26,7 @@ def bot_talk():
         client_name = session_id
         print('in if')
         print(session_id)
+        print(client_name)
         full_bot_response = api.talk(user_key, app_id, host, botname, request_message, session_id, client_name, trace=True)
     else:
         full_bot_response = api.talk(user_key, app_id, host, botname, request_message, trace=True)
@@ -48,7 +49,6 @@ def bot_talk():
 
    
     session['session_id'] = session_id
-    session['client_name'] = client_name
 
     '''text response'''
     #broken up responses
