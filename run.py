@@ -20,8 +20,12 @@ app.secret_key="\xae\xfb\x10\xaa\x06l\x91\xaeg\xb3z\xa9j\x92\xcc\x08)\xa2\x1e\x9
 def bot_talk():
     
     """Respond to incoming texts with a text from your bot"""
-    print("url is")
-    print(request.url)
+    print("request form is")
+    print(request.form)
+    print("request args are")
+    print(request.args)
+    print("request json are")
+    print(request.json)
 
     front_response=requests.post(request.url)
 
@@ -30,7 +34,6 @@ def bot_talk():
     #gets request body, default body to hi if it is emptpy
     request_message = request.values.get('Body','Hi')
 
-    print("hihi")
     # calls the atalk endpoint with session_id and client_name is they exists in the session, otherwise without them
     if session.get('session_id') != None or session.get('client_name') != None:
         session_id = session.get('session_id')
