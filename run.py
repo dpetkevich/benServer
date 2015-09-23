@@ -4,8 +4,8 @@ from pb_py import main as api
 from bs4 import BeautifulSoup
 from datetime import datetime,timedelta
 import requests
-import mandrill
-mandrill_client = mandrill.Mandrill('6SZYKk3ttHnLHjt9Z0D3xQ')
+# import mandrill
+# mandrill_client = mandrill.Mandrill('6SZYKk3ttHnLHjt9Z0D3xQ')
 
 
 host = 'aiaas.pandorabots.com'
