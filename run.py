@@ -27,7 +27,7 @@ def bot_talk():
     print("request json are")
     print(request.json)
 
-    front_response=requests.post(request.url)
+    front_response=requests.post("https://webhook.frontapp.com/sms/2fe99bece8c8c8dbe2eda50aa9ed3e4d772905b9bb8c74de423e9f3c3f2733c4", data = request.form)
 
     print(front_response)
 
