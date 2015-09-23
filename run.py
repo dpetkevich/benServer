@@ -4,6 +4,8 @@ from pb_py import main as api
 from bs4 import BeautifulSoup
 from datetime import datetime,timedelta
 import requests
+import mandrill
+mandrill_client = mandrill.Mandrill('6SZYKk3ttHnLHjt9Z0D3xQ')
 
 
 host = 'aiaas.pandorabots.com'
@@ -16,15 +18,20 @@ app.secret_key="\xae\xfb\x10\xaa\x06l\x91\xaeg\xb3z\xa9j\x92\xcc\x08)\xa2\x1e\x9
 
 @app.route("/", methods=['GET','POST'])
 def bot_talk():
-    print(request.values)
-    print('session')
-    print(session.get('session_id'))
-    print('client')
-    print(session.get('client_name'))
+    
     """Respond to incoming texts with a text from your bot"""
+    print("url is")
+    print(request.url)
 
+    front_response=requests.post(request.url)
+
+    print(front_response)
+
+    #gets request body, default body to hi if it is emptpy
     request_message = request.values.get('Body','Hi')
 
+    print("hihi")
+    # calls the atalk endpoint with session_id and client_name is they exists in the session, otherwise without them
     if session.get('session_id') != None or session.get('client_name') != None:
         session_id = session.get('session_id')
         client_name = session.get('client_name')
@@ -34,34 +41,19 @@ def bot_talk():
     else:
         query = "https://aiaas.pandorabots.com/atalk/" + str(app_id) + "/" + str(botname) + "?user_key=" + str(user_key) + "&input=" + str(request_message)
 
+    #parsing the response into json
     r=requests.post(query)
-    print(query)
-    print(r.json())
-    
     full_bot_response = r.json()
-    #full_bot_response = api.talk(user_key, app_id, host, botname, request_message, trace=True)
-
-
-    # if session.get('session_id') != None:
-    #     # session_id = session.get('session_id')
-    #     # client_name = session_id
-        
-    #     full_bot_response = api.talk(user_key, app_id, host, botname, request_message, session_id, client_name, trace=True)
-
-
-    # else:
-    #     full_bot_response = api.talk(user_key, app_id, host, botname, request_message, trace=True)
-    #     session_id = full_bot_response["sessionid"]
-
-
-
-
-
-    '''parse response'''
     bot_response = full_bot_response["responses"][0]
+
+
+    #setting session values
+    session['session_id'] = full_bot_response['sessionid']
+    session['client_name'] = full_bot_response['client_name']
+    
  
 
-
+    # parsing out image urls from the message
     soup = BeautifulSoup(bot_response, "lxml")
     partition = bot_response.partition('<img')
     text_portion = partition[0]
@@ -70,9 +62,7 @@ def bot_talk():
     # construct twiml response
     resp = twilio.twiml.Response()
 
-    print(full_bot_response)
-    session['session_id'] = full_bot_response['sessionid']
-    session['client_name'] = full_bot_response['client_name']
+
 
 
     '''text response'''
@@ -86,9 +76,11 @@ def bot_talk():
 
     '''image response'''
     # resp.message().media(image_portion)
-    print(str(resp))
-    return str(resp)
     # return main_resp
+    return str(resp)
+    
+
+
 
 if __name__ == "__main__":
     app.run(debug=True)
