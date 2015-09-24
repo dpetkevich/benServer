@@ -6,8 +6,8 @@ from datetime import datetime,timedelta
 import requests
 from zenpy import Zenpy
 import json
-# import mandrill
-# mandrill_client = mandrill.Mandrill('6SZYKk3ttHnLHjt9Z0D3xQ')
+# from celery import Celery
+
 
 host = 'aiaas.pandorabots.com'
 user_key = '8704f84cef67d2c4c1c487ce9aab7da2'
@@ -26,8 +26,8 @@ pwd = 'boris5423'
 def bot_talk():
     
     """Respond to incoming texts with a text from your bot"""
-   
-
+    print "request url"
+    print request.url
     # find user
     # if users exists, find ticket, and add comment to ticket
     # else, create new ticket for user and user implicitly
@@ -72,7 +72,7 @@ def bot_talk():
         data = {
                     "ticket": {
                         "requester": {
-                            "name" : "unnamed",
+                            "name" : phone,
                             "phone": phone
                             },
                         "comment":{ 
