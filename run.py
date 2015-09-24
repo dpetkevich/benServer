@@ -145,12 +145,17 @@ def send_human_response():
 
     print 'new endpoint working'
 
-    print request.values.get('Body','Hi')
-    request_message = request.values.get('Body','Hi')
+    print request.values.get('body','Hi')
+
+    request_message = request.values.get('body','Hi')
+    recipient_phone = request.values.get('recepient_phone', 'Hi')
+
+    print request_message
+    print recipient_phone
 
     resp = twilio.twiml.Response()
 
-    resp.message(msg=request_message)
+    resp.message(msg=request_message, to = recipient_phone, from = "+4152148557" )
 
     return str(resp)
 
