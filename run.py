@@ -1,5 +1,7 @@
 from flask import Flask, request, redirect, make_response, session
 import twilio.twiml
+from twilio.rest import TwilioRestClient
+
 from pb_py import main as api
 from bs4 import BeautifulSoup
 from datetime import datetime,timedelta
@@ -20,6 +22,9 @@ zenpy = Zenpy('textbenjamin', 'daniel@textbenjamin.com', 'SoC5ZLSVqnJHAUd2ABJj7A
 
 user = 'daniel@textbenjamin.com'
 pwd = 'boris5423'
+
+client = TwilioRestClient("ACb41873fa43918a22c3d47487cae6074b", "333d7180a03c0658e9c8056d5617024b")
+
 
 
 @app.route("/", methods=['GET','POST'])
@@ -147,19 +152,27 @@ def send_human_response():
 
     print request.url
 
-    print request.values.get('body','Hi')
-
     request_message = request.values.get('body','Hi')
     recipient_phone = request.values.get('recipient_phone', 'Hi')
 
     print request_message
     print recipient_phone
 
-    resp = twilio.twiml.Response()
+    # resp = twilio.twiml.Response()
 
-    resp.message(msg=request_message, to = recipient_phone, sender = '+14152148557')
+    # resp.message(msg=request_message, to = recipient_phone, sender = '+14152148557')
 
-    return str(resp)
+    # print str(resp)
+
+    message = client.messages.create(
+                body= request_message,  
+                to= recipient_phone,
+                from_='+14152148557',
+            )
+
+    response = response(status = 200)
+
+    return response
 
 
 if __name__ == "__main__":
