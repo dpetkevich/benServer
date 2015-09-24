@@ -141,7 +141,7 @@ def bot_talk():
     return str(resp)
     
 @app.route("/respond", methods=['POST'])
-def bot_talk():
+def send_human_response():
 
     print 'new endpoint working'
 
