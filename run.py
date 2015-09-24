@@ -168,11 +168,23 @@ def send_human_response():
                 body= request_message,  
                 to= recipient_phone,
                 from_='+14152148557',
+                StatusCallback = "http://bstaging.herokuapp.com" + "/setCookie"
             )
 
-    response = response(status = 200)
+   
 
-    return response
+    return True
+
+@app.route("/setCookie", methods=['POST'])
+def setCookie():
+
+    session['bot_enabled?'] = "False"
+
+    print session.get('bot_enabled?') 
+
+    return True
+
+
 
 
 if __name__ == "__main__":
