@@ -28,6 +28,7 @@ def bot_talk():
     """Respond to incoming texts with a text from your bot"""
     print "request url"
     print request.url
+    print request.values
     # find user
     # if users exists, find ticket, and add comment to ticket
     # else, create new ticket for user and user implicitly
@@ -139,6 +140,8 @@ def bot_talk():
     # return main_resp
     return str(resp)
     
+# @app.route("/respond", methods=['POST'])
+# def bot_talk():
 
 
 
