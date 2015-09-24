@@ -145,10 +145,12 @@ def send_human_response():
 
     print 'new endpoint working'
 
+    print request.url
+
     print request.values.get('body','Hi')
 
     request_message = request.values.get('body','Hi')
-    recipient_phone = request.values.get('recepient_phone', 'Hi')
+    recipient_phone = request.values.get('recipient_phone', 'Hi')
 
     print request_message
     print recipient_phone
