@@ -140,9 +140,19 @@ def bot_talk():
     # return main_resp
     return str(resp)
     
-# @app.route("/respond", methods=['POST'])
-# def bot_talk():
+@app.route("/respond", methods=['POST'])
+def bot_talk():
 
+    print 'new endpoint working'
+
+    print request.values.get('Body','Hi')
+    request_message = request.values.get('Body','Hi')
+
+    resp = twilio.twiml.Response()
+
+    resp.message(msg=request_message)
+
+    return str(resp)
 
 
 if __name__ == "__main__":
