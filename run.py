@@ -187,9 +187,13 @@ def send_human_response():
 
     return "Works"
 
-@app.route("/setCookie", methods=['POST'])
+@app.route("/setCookie", methods=['POST','GET'])
 def setCookie():
 
+    print "cookie is"
+    print request.cookies.get('bot_enabled')
+
+    resp = make_response()
     resp.set_cookie('bot_enabled', 'False')
     return resp
 
