@@ -37,6 +37,9 @@ def bot_talk():
     print 'bot enabled?'
     print session.get('bot_enabled')
 
+    print "Cookies"
+    print request.cookies.get('bot_enabled')
+
 
     # find user
     # if users exists, find ticket, and add comment to ticket
@@ -187,11 +190,8 @@ def send_human_response():
 @app.route("/setCookie", methods=['POST'])
 def setCookie():
 
-    session['bot_enabled'] = "False"
-
-    print session.get('bot_enabled?') 
-
-    return "Works"
+    resp.set_cookie('bot_enabled', 'False')
+    return resp
 
 
 
