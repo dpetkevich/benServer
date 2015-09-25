@@ -44,7 +44,7 @@ def bot_talk():
     # find user
     # if users exists, find ticket, and add comment to ticket
     # else, create new ticket for user and user implicitly
-    request_message = request.values.get('Body','Hi')
+    request_message = request.values.get('Body','retire')
     phone = request.values.get('From','+11111111111')
 
     # lookup whether this user is in zendesk
@@ -136,24 +136,29 @@ def bot_talk():
 
     # parsing out image urls from the message
     soup = BeautifulSoup(bot_response, "lxml")
-    partition = bot_response.partition('<img')
+    # partition = bot_response.partition('<img')
 
     print "soup is"
     print soup
     
-    image_portion = soup.img.extract()['src']
+    resp = twilio.twiml.Response()
+
+    if soup.img:
+        image_portion = soup.img.extract()['src']
+        resp.message().media(image_portion)
     text_portion = soup.text
 
+    resp.message(msg=text_portion)
+
     # construct twiml response
-    resp = twilio.twiml.Response()
+    
 
 
 
 
     '''text response'''
-    resp.message().media(image_portion)
+    
 
-    resp.message(msg=text_portion)
 
     '''image response'''
     print str(resp)
