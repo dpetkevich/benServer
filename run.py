@@ -100,50 +100,53 @@ def bot_talk():
 
 
     #gets request body, default body to hi if it is emptpy
-    
+    if session.get('bot_enabled?') != False:
 
     # calls the atalk endpoint with session_id and client_name is they exists in the session, otherwise without them
-    if session.get('session_id') != None or session.get('client_name') != None:
-        session_id = session.get('session_id')
-        client_name = session.get('client_name')
-        query = "https://aiaas.pandorabots.com/atalk/" + str(app_id) + "/" + str(botname) + "?user_key=" + str(user_key) + "&input=" + str(request_message) + '&client_name=' + str(client_name) + '&sessionid=' + str(session_id)
-        
+        if session.get('session_id') != None or session.get('client_name') != None:
+            session_id = session.get('session_id')
+            client_name = session.get('client_name')
+            query = "https://aiaas.pandorabots.com/atalk/" + str(app_id) + "/" + str(botname) + "?user_key=" + str(user_key) + "&input=" + str(request_message) + '&client_name=' + str(client_name) + '&sessionid=' + str(session_id)
+            
 
-    else:
-        query = "https://aiaas.pandorabots.com/atalk/" + str(app_id) + "/" + str(botname) + "?user_key=" + str(user_key) + "&input=" + str(request_message)
+        else:
+            query = "https://aiaas.pandorabots.com/atalk/" + str(app_id) + "/" + str(botname) + "?user_key=" + str(user_key) + "&input=" + str(request_message)
 
-    #parsing the response into json
-    r=requests.post(query)
-    full_bot_response = r.json()
-    bot_response = full_bot_response["responses"][0]
+        #parsing the response into json
+        r=requests.post(query)
+        full_bot_response = r.json()
+        bot_response = full_bot_response["responses"][0]
 
 
-    #setting session values
-    session['session_id'] = full_bot_response['sessionid']
-    session['client_name'] = full_bot_response['client_name']
+        #setting session values
+        session['session_id'] = full_bot_response['sessionid']
+        session['client_name'] = full_bot_response['client_name']
     
  
 
-    # parsing out image urls from the message
-    soup = BeautifulSoup(bot_response, "lxml")
-    partition = bot_response.partition('<img')
-    text_portion = partition[0]
-    #image_portion = soup.img.extract()['src']
+        # parsing out image urls from the message
+        soup = BeautifulSoup(bot_response, "lxml")
+        partition = bot_response.partition('<img')
+        text_portion = partition[0]
+        #image_portion = soup.img.extract()['src']
 
-    # construct twiml response
-    resp = twilio.twiml.Response()
-
-
+        # construct twiml response
+        resp = twilio.twiml.Response()
 
 
-    '''text response'''
-   
-    resp.message(msg=text_portion)
 
-    '''image response'''
-    # resp.message().media(image_portion)
-    # return main_resp
-    return str(resp)
+
+        '''text response'''
+       
+        resp.message(msg=text_portion)
+
+        '''image response'''
+        # resp.message().media(image_portion)
+        # return main_resp
+        return str(resp)
+
+    else:
+        return 'works'
     
 @app.route("/respond", methods=['POST'])
 def send_human_response():
@@ -173,7 +176,7 @@ def send_human_response():
 
    
 
-    return True
+    return "Works"
 
 @app.route("/setCookie", methods=['POST'])
 def setCookie():
@@ -182,7 +185,7 @@ def setCookie():
 
     print session.get('bot_enabled?') 
 
-    return True
+    return "Works"
 
 
 
