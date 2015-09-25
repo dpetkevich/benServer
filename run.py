@@ -191,10 +191,11 @@ def send_human_response():
 def setCookie():
 
     print "cookie is"
-    print request.cookies.get('bot_enabled')
 
-    resp = make_response()
+    resp = make_response(redirect('/'))
     resp.set_cookie('bot_enabled', 'False')
+    print resp.cookies.get('bot_enabled')
+
     return resp
 
 
