@@ -138,7 +138,7 @@ def bot_talk():
     soup = BeautifulSoup(bot_response, "lxml")
     partition = bot_response.partition('<img')
     text_portion = partition[0]
-    #image_portion = soup.img.extract()['src']
+    image_portion = soup.img.extract()['src']
 
     # construct twiml response
     resp = twilio.twiml.Response()
@@ -151,8 +151,8 @@ def bot_talk():
     resp.message(msg=text_portion)
 
     '''image response'''
-    # resp.message().media(image_portion)
-    # return main_resp
+    resp.message().media(image_portion)
+    
     return str(resp)
 
     
@@ -180,22 +180,22 @@ def send_human_response():
                 body= request_message,  
                 to= recipient_phone,
                 from_='+14152148557',
-                StatusCallback = "http://bstaging.herokuapp.com" + "/setCookie"
+                # StatusCallback = "http://bstaging.herokuapp.com" + "/setCookie"
             )
 
    
 
     return "Works"
 
-@app.route("/setCookie", methods=['POST','GET'])
-def setCookie():
+# @app.route("/setCookie", methods=['POST','GET'])
+# def setCookie():
 
-    print "cookie is"
+#     print "cookie is"
 
-    resp = make_response(redirect('/'))
-    resp.set_cookie('bot_enabled', 'False')
+#     resp = make_response(redirect('/'))
+#     resp.set_cookie('bot_enabled', 'False')
 
-    return resp
+#     return resp
 
 
 
