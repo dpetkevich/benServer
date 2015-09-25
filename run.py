@@ -100,7 +100,9 @@ def bot_talk():
 
 
     #gets request body, default body to hi if it is emptpy
-    if session.get('bot_enabled?') != False:
+    print 'bot cookie is'
+    print session.get('bot_enabled?')
+    if session.get('bot_enabled?') != "False":
 
     # calls the atalk endpoint with session_id and client_name is they exists in the session, otherwise without them
         if session.get('session_id') != None or session.get('client_name') != None:
