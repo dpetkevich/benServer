@@ -137,8 +137,12 @@ def bot_talk():
     # parsing out image urls from the message
     soup = BeautifulSoup(bot_response, "lxml")
     partition = bot_response.partition('<img')
-    text_portion = partition[0]
+
+    print "soup is"
+    print soup
+    
     image_portion = soup.img.extract()['src']
+    text_portion = soup.text
 
     # construct twiml response
     resp = twilio.twiml.Response()
@@ -147,11 +151,11 @@ def bot_talk():
 
 
     '''text response'''
-   
+    resp.message().media(image_portion)
+
     resp.message(msg=text_portion)
 
     '''image response'''
-    resp.message().media(image_portion)
     print str(resp)
     
     return str(resp)
