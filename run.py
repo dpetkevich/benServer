@@ -34,6 +34,10 @@ def bot_talk():
     print "request url"
     print request.url
     print request.values
+    print 'bot enabled?'
+    print session.get('bot_enabled')
+
+
     # find user
     # if users exists, find ticket, and add comment to ticket
     # else, create new ticket for user and user implicitly
@@ -94,61 +98,61 @@ def bot_talk():
         # make request to create ticket
         createTicketResponse = requests.post(url, data=json.dumps(data), auth=(user, pwd), headers=headers)
 
-        
-        
+    
+    if session.get('bot_enabled') == 'False':
+        return "Works"  
 
 
 
     #gets request body, default body to hi if it is emptpy
-    print 'bot cookie is'
-    print session.get('bot_enabled?')
-    if session.get('bot_enabled?') != "False":
+    
 
     # calls the atalk endpoint with session_id and client_name is they exists in the session, otherwise without them
-        if session.get('session_id') != None or session.get('client_name') != None:
-            session_id = session.get('session_id')
-            client_name = session.get('client_name')
-            query = "https://aiaas.pandorabots.com/atalk/" + str(app_id) + "/" + str(botname) + "?user_key=" + str(user_key) + "&input=" + str(request_message) + '&client_name=' + str(client_name) + '&sessionid=' + str(session_id)
-            
-
-        else:
-            query = "https://aiaas.pandorabots.com/atalk/" + str(app_id) + "/" + str(botname) + "?user_key=" + str(user_key) + "&input=" + str(request_message)
-
-        #parsing the response into json
-        r=requests.post(query)
-        full_bot_response = r.json()
-        bot_response = full_bot_response["responses"][0]
-
-
-        #setting session values
-        session['session_id'] = full_bot_response['sessionid']
-        session['client_name'] = full_bot_response['client_name']
-    
- 
-
-        # parsing out image urls from the message
-        soup = BeautifulSoup(bot_response, "lxml")
-        partition = bot_response.partition('<img')
-        text_portion = partition[0]
-        #image_portion = soup.img.extract()['src']
-
-        # construct twiml response
-        resp = twilio.twiml.Response()
-
-
-
-
-        '''text response'''
-       
-        resp.message(msg=text_portion)
-
-        '''image response'''
-        # resp.message().media(image_portion)
-        # return main_resp
-        return str(resp)
+    if session.get('session_id') != None or session.get('client_name') != None:
+        session_id = session.get('session_id')
+        client_name = session.get('client_name')
+        query = "https://aiaas.pandorabots.com/atalk/" + str(app_id) + "/" + str(botname) + "?user_key=" + str(user_key) + "&input=" + str(request_message) + '&client_name=' + str(client_name) + '&sessionid=' + str(session_id)
+        
 
     else:
-        return 'works'
+        query = "https://aiaas.pandorabots.com/atalk/" + str(app_id) + "/" + str(botname) + "?user_key=" + str(user_key) + "&input=" + str(request_message)
+
+    #parsing the response into json
+    r=requests.post(query)
+    full_bot_response = r.json()
+    bot_response = full_bot_response["responses"][0]
+
+    if bot_response.find('concierge') != -1:
+        session['bot_enabled'] = "False"
+
+    #setting session values
+    session['session_id'] = full_bot_response['sessionid']
+    session['client_name'] = full_bot_response['client_name']
+
+
+
+    # parsing out image urls from the message
+    soup = BeautifulSoup(bot_response, "lxml")
+    partition = bot_response.partition('<img')
+    text_portion = partition[0]
+    #image_portion = soup.img.extract()['src']
+
+    # construct twiml response
+    resp = twilio.twiml.Response()
+
+
+
+
+    '''text response'''
+   
+    resp.message(msg=text_portion)
+
+    '''image response'''
+    # resp.message().media(image_portion)
+    # return main_resp
+    return str(resp)
+
+    
     
 @app.route("/respond", methods=['POST'])
 def send_human_response():
@@ -173,21 +177,21 @@ def send_human_response():
                 body= request_message,  
                 to= recipient_phone,
                 from_='+14152148557',
-                StatusCallback = "http://bstaging.herokuapp.com" + "/setCookie"
+                # StatusCallback = "http://bstaging.herokuapp.com" + "/setCookie"
             )
 
    
 
     return "Works"
 
-@app.route("/setCookie", methods=['POST'])
-def setCookie():
+# @app.route("/setCookie", methods=['POST'])
+# def setCookie():
 
-    session['bot_enabled?'] = "False"
+#     session['bot_enabled?'] = "False"
 
-    print session.get('bot_enabled?') 
+#     print session.get('bot_enabled?') 
 
-    return "Works"
+#     return "Works"
 
 
 
