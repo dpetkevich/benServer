@@ -38,7 +38,7 @@ def bot_talk():
     print session.get('bot_enabled')
 
     print "Cookies"
-    print request.cookies.get('bot_enabled')
+    # print request.cookies.get('bot_enabled')
 
 
     # find user
@@ -152,6 +152,7 @@ def bot_talk():
 
     '''image response'''
     resp.message().media(image_portion)
+    print str(resp)
     
     return str(resp)
 
