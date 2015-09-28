@@ -48,17 +48,27 @@ def bot_talk():
     phone = request.values.get('From','+11111111111')
 
     # lookup whether this user is in zendesk
-    possible_existing_user = zenpy.search(type='user', phone=phone)
+    # possible_existing_user = zenpy.search(type='user', phone=phone)
 
-    print 'length'
-    print 
+    url = "https://textbenjamin.zendesk.com/api/v2/search.json"
+
+    payload = {'query': 'type:user phone:'+ phone }
 
 
-    if len(list(possible_existing_user)) != 0:
+    possible_existing_user = requests.get(url, auth=(user, pwd), params=payload).json()
 
+    print "user"
+    print possible_existing_user
+
+
+    if possible_existing_user.get('count') > 0:
+
+        relevant_user = possible_existing_user['results'][0]
+        print relevant_user
 
         # lookup the ticket belonging to this user
-        relevant_ticket = zenpy.search(type='ticket', requester_id = possible_existing_user.next().id).next()
+        relevant_ticket = zenpy.search(type='ticket', requester_id = relevant_user.get('id')).next()
+
 
         ## prepare update ticket request
         # set url
