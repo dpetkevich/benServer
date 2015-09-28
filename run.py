@@ -50,7 +50,12 @@ def bot_talk():
     # lookup whether this user is in zendesk
     possible_existing_user = zenpy.search(type='user', phone=phone)
 
-    if possible_existing_user:
+    print 'length'
+    print 
+
+
+    if len(list(possible_existing_user)) > 0:
+
 
         # lookup the ticket belonging to this user
         relevant_ticket = zenpy.search(type='ticket', requester_id = possible_existing_user.next().id).next()
