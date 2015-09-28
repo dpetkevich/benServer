@@ -54,7 +54,7 @@ def bot_talk():
     print 
 
 
-    if len(list(possible_existing_user)) > 0:
+    if len(list(possible_existing_user)) != 0:
 
 
         # lookup the ticket belonging to this user
