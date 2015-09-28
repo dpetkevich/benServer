@@ -116,6 +116,9 @@ def bot_talk():
         # make request to create ticket
         createTicketResponse = requests.post(url, data=json.dumps(data), auth=(user, pwd), headers=headers)
 
+        print "creat ticket respoinse"
+        print createTicketResponse
+
     
     if session.get('bot_enabled') == 'False':
         return "Works"  
