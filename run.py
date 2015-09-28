@@ -30,7 +30,6 @@ client = TwilioRestClient("ACb41873fa43918a22c3d47487cae6074b", "333d7180a03c065
 @app.route("/", methods=['GET','POST'])
 def bot_talk():
 
-    session.clear()
     
     """Respond to incoming texts with a text from your bot"""
     print "request url"
