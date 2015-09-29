@@ -45,7 +45,7 @@ def bot_talk():
     # find user
     # if users exists, find ticket, and add comment to ticket
     # else, create new ticket for user and user implicitly
-    request_message = request.values.get('Body','retire')
+    request_message = request.values.get('Body','How are you, Benjamin?')
     phone = request.values.get('From','+11111111111')
 
     # lookup whether this user is in zendesk
@@ -57,6 +57,9 @@ def bot_talk():
 
 
     possible_existing_user = requests.get(url, auth=(user, pwd), params=payload).json()
+
+    print "request_message"
+    print request_message
 
     print "user"
     print possible_existing_user
@@ -133,15 +136,34 @@ def bot_talk():
     if session.get('session_id') != None or session.get('client_name') != None:
         session_id = session.get('session_id')
         client_name = session.get('client_name')
-        query = "https://aiaas.pandorabots.com/atalk/" + str(app_id) + "/" + str(botname) + "?user_key=" + str(user_key) + "&input=" + str(request_message) + '&client_name=' + str(client_name) + '&sessionid=' + str(session_id)
+        query = "https://aiaas.pandorabots.com/atalk/" + str(app_id) + "/" + str(botname)
         
+        payload1 = {
+        'user_key' : str(user_key),
+        "input": str(request_message),
+        "client_name": str(client_name),
+        'sessionid': str(session_id)
+
+        }
 
     else:
-        query = "https://aiaas.pandorabots.com/atalk/" + str(app_id) + "/" + str(botname) + "?user_key=" + str(user_key) + "&input=" + str(request_message)
+        query = "https://aiaas.pandorabots.com/atalk/" + str(app_id) + "/" + str(botname) 
+        payload1 = {
+        'user_key' : str(user_key),
+        "input": str(request_message)
+        }
 
     #parsing the response into json
-    r=requests.post(query)
+
+    print 'query is '
+    print query
+    r=requests.post(query, data = payload1)
+
+    print "request"
+
+    print r.text
     full_bot_response = r.json()
+
     bot_response = full_bot_response["responses"][0]
 
     if bot_response.find('concierge') != -1:
