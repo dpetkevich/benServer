@@ -45,7 +45,7 @@ def bot_talk():
     # find user
     # if users exists, find ticket, and add comment to ticket
     # else, create new ticket for user and user implicitly
-    request_message = request.values.get('Body','How are you, Benjamin?')
+    request_message = request.values.get('Body','Menu')
     phone = request.values.get('From','+11111111111')
 
     # lookup whether this user is in zendesk
@@ -161,7 +161,6 @@ def bot_talk():
 
     print "request"
 
-    print r.text
     full_bot_response = r.json()
 
     bot_response = full_bot_response["responses"][0]
