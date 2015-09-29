@@ -139,18 +139,18 @@ def bot_talk():
         query = "https://aiaas.pandorabots.com/atalk/" + str(app_id) + "/" + str(botname)
         
         payload1 = {
-        'user_key' : str(user_key),
-        "input": str(request_message),
-        "client_name": str(client_name),
-        'sessionid': str(session_id)
+        'user_key' : unicode(user_key),
+        "input": unicode(request_message),
+        "client_name": unicode(client_name),
+        'sessionid': unicode(session_id)
 
         }
 
     else:
         query = "https://aiaas.pandorabots.com/atalk/" + str(app_id) + "/" + str(botname) 
         payload1 = {
-        'user_key' : str(user_key),
-        "input": str(request_message)
+        'user_key' : unicode(user_key),
+        "input": unicode(request_message)
         }
 
     #parsing the response into json
